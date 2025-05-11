@@ -1,3 +1,7 @@
+let computerScore = 0
+let humanScore = 0
+let round = 0
+
 document.body.setAttribute("style", "display: flex; flex-direction: column");
 
 const main = document.createElement("div");
@@ -18,8 +22,13 @@ document.body.appendChild(buttons);
 const results = document.createElement("div");
 results.classList.add("results");
 results.setAttribute("style", "display: flex; justify-content: center");
-const para = document.createElement("p");
-results.appendChild(para);
+const roundInfo = document.createElement("p");
+roundInfo.classList.add("roundInfo")
+roundInfo.textContent = `Round: ${round}`;
+results.appendChild(roundInfo);
+const roundResult = document.createElement("p");
+roundResult.classList.add('roundResult')
+results.appendChild(roundResult);
 document.body.appendChild(results);
 
 const btn_rock = document.createElement("button");
@@ -49,9 +58,6 @@ btn_scissors.addEventListener("click", () => {
     playRound("scissors", getComputerChoice());
 });
 
-let computerScore = 0
-let humanScore = 0
-
 function getComputerChoice(max = 3) {
     let computerChoice = Math.floor(Math.random() * max)
     
@@ -73,13 +79,13 @@ function getHumanChoice() {
 }
 
 function playRound(humanChoice, computerChoice) {
+    // let round = 0;
     if (
         (humanChoice === 'rock' && computerChoice === 'rock') ||
         (humanChoice === 'paper' && computerChoice === 'paper') ||
         (humanChoice === 'scissors' && computerChoice === 'scissors')
     ) {
-        para.textContent = `Tie game! Great minds think alike — both chose ${humanChoice}.`;
-
+        roundResult.textContent = `Tie game! Great minds think alike — both chose ${humanChoice}.`;
     }
     else if (
         (humanChoice === 'rock' && computerChoice === 'scissors') ||
@@ -87,10 +93,12 @@ function playRound(humanChoice, computerChoice) {
         (humanChoice === 'scissors' && computerChoice === 'paper')
     ) {
         humanScore++;
-        para.textContent = `You win - ${humanChoice} beats ${computerChoice}.`;
+        roundResult.textContent = `You win - ${humanChoice} beats ${computerChoice}.`;
     }
     else {
         computerScore++;
-        para.textContent = `You lose - ${computerChoice} beats ${humanChoice}.`;
+        roundResult.textContent = `You lose - ${computerChoice} beats ${humanChoice}.`;
     }
+    round++;
+    roundInfo.textContent = `Round: ${round}`;
 }
