@@ -21,15 +21,23 @@ document.body.appendChild(buttons);
 
 const results = document.createElement("div");
 results.classList.add("results");
-results.setAttribute("style", "display: flex; justify-content: center");
+results.setAttribute("style", "display: flex; flex-direction: column; align-items: center");
+document.body.appendChild(results);
+
 const roundInfo = document.createElement("p");
 roundInfo.classList.add("roundInfo")
 roundInfo.textContent = `Round: ${round}`;
 results.appendChild(roundInfo);
+
+const score = document.createElement("p");
+score.classList.add("score");
+score.textContent = `Your score: ${humanScore} vs CPU score: ${computerScore}`;
+results.appendChild(score);
+
 const roundResult = document.createElement("p");
 roundResult.classList.add('roundResult')
 results.appendChild(roundResult);
-document.body.appendChild(results);
+
 
 const btn_rock = document.createElement("button");
 btn_rock.classList.add("btn_rock");
@@ -45,6 +53,19 @@ const btn_scissors = document.createElement("button");
 btn_scissors.classList.add("btn_scissors");
 btn_scissors.textContent = ("Scissors")
 buttons.appendChild(btn_scissors);
+
+// TODO: Change listeners to get node-list and make it reusable
+// const choices = ["rock", "paper", "scissors"];
+
+// choices.forEach(choice => {
+//     const button = document.createElement("button");
+//     button.classList.add(`btn_${choice}`);
+//     button.textContent = choice.charAt(0).toUpperCase() + choice.slice(1); // Capitalize
+//     button.addEventListener("click", () => {
+//         playRound(choice, getComputerChoice());
+//     });
+//     buttons.appendChild(button);
+// });
 
 btn_rock.addEventListener("click", () => {
     playRound("rock", getComputerChoice());
@@ -79,7 +100,6 @@ function getHumanChoice() {
 }
 
 function playRound(humanChoice, computerChoice) {
-    // let round = 0;
     if (
         (humanChoice === 'rock' && computerChoice === 'rock') ||
         (humanChoice === 'paper' && computerChoice === 'paper') ||
@@ -100,5 +120,25 @@ function playRound(humanChoice, computerChoice) {
         roundResult.textContent = `You lose - ${computerChoice} beats ${humanChoice}.`;
     }
     round++;
+    score.textContent = `Your score: ${humanScore} vs CPU score: ${computerScore}`;
     roundInfo.textContent = `Round: ${round}`;
+
+    checkWinnerAndReset();
+}
+
+function checkWinnerAndReset() {
+    if (humanScore === 5) {
+        alert("You win!");
+        resetGame();
+    } 
+    else if (computerScore === 5) {
+        alert('You loose!');
+        resetGame();
+    }
+}
+
+function resetGame() {
+    computerScore = 0;
+    humanScore = 0;
+    round = 0;
 }
